@@ -1,3 +1,4 @@
+.env
 .idea
 fake-oauth2.iml
 node_modules
