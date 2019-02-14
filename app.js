@@ -127,7 +127,7 @@ function validateAccessTokenRequest(req, res) {
   return success;
 }
 
-function createToken(name, email, expires_in, client_state) {
+function createToken(user, expires_in, client_state) {
   const code = "C-" + randomstring.generate(3);
   const accesstoken = "ACCT-" + randomstring.generate(6);
   const refreshtoken = "REFT-" + randomstring.generate(6);
@@ -141,9 +141,9 @@ function createToken(name, email, expires_in, client_state) {
     token_type: "Bearer"
   };
   id_token2personData[id_token] = authHeader2personData["Bearer " + accesstoken] = {
-    email: email,
+    email: user['email'],
     email_verified: true,
-    name: name
+    name: user['name']
   };
   code2token[code] = token;
   return code;
@@ -174,7 +174,7 @@ function authRequestHandler(req, res) {
 app.get(AUTH_REQUEST_PATH, authRequestHandler);
 
 app.get("/login-as", (req, res) => {
-  const code = createToken(req.query.name, req.query.email, req.query.expires_in, req.session.client_state);
+  const code = createToken(req.query, req.query.expires_in, req.session.client_state);
   var location = req.session.redirect_uri + "?code=" + code;
   if (req.session.client_state) {
     location += "&state=" + req.session.client_state;

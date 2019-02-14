@@ -1,6 +1,33 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='https://unpkg.com/formiojs@latest/dist/formio.full.min.css'>
+    <script src='https://unpkg.com/formiojs@latest/dist/formio.full.min.js'></script>
+    <script type='text/javascript'>
+      window.onload = function() {
+        var form = document.getElementById('formio');
+
+        Formio.createForm(form, {
+          components: [
+            {
+              type: 'textfield',
+              key: 'name',
+              label: 'Name of the resource owner (optional):',
+              placeholder: 'Ressource owner',
+              input: true
+            },
+            {
+              type: 'email',
+              key: 'email',
+              label: 'Email of the resource owner (optional):',
+              placeholder: 'ressource.owner@example.com',
+              input: true
+            }
+          ]
+        })
+      };
+    </script>
     <title>Fake Google OAuth2 (and maybe other services)</title>
 </head>
 <body>
@@ -21,6 +48,11 @@
             </table>
             <h2>Create token & grant access</h2>
             <form action="/login-as">
+              <div id="formio">
+              </div>
+              <input type="submit" value="generate token"/>
+            </form>
+            <!--form action="/login-as">
                 <div class="form-group">
                     <label for="name">Name of the resource owner (optional): </label>
                     <input name="name" id="name" class="form-control" />
@@ -36,7 +68,7 @@
                     <input type="text" class="form-control" value="3600" name="expires_in" id="expires_in"/>
                 </div>
                 <input type="submit" value="generate token"/>
-            </form>
+            </form-->
         </div>
         <div class="col-lg-3"></div>
     </div>
